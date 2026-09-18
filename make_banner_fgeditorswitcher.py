@@ -77,17 +77,22 @@ DOT = '#0B263F'
 TX = 465
 
 title_size = 44
-fg_d, fg_w = text_path('FG', BOLD, title_size, TX, 80)
-title_d, title_w = text_path(' Editor Switcher', BOLD, title_size, TX + fg_w, 80)
+# Vertical centering: with the original y-values, the text block (title
+# through last bullet) spanned roughly y=48..415 in the 525-tall canvas -
+# 48px top margin vs. 110px bottom margin, visibly off-center high. Shifting
+# every y-coordinate down by this amount balances the margins.
+Y_SHIFT = 31
+fg_d, fg_w = text_path('FG', BOLD, title_size, TX, 80 + Y_SHIFT)
+title_d, title_w = text_path(' Editor Switcher', BOLD, title_size, TX + fg_w, 80 + Y_SHIFT)
 
 sub_size = 22
 sub_d, sub_w = text_path(
     'Switch WYSIWYG editors on the fly \u2014 without losing what you typed.',
-    ITALIC, sub_size, TX, 122
+    ITALIC, sub_size, TX, 122 + Y_SHIFT
 )
 
 rule_w = max(fg_w + title_w, sub_w)
-rule_y = 144
+rule_y = 144 + Y_SHIFT
 
 bullets = [
     ('Any editor, any time', 'TinyMCE, CodeMirror, JCE and more - pick per session'),
@@ -98,7 +103,7 @@ bullets = [
 
 heading_size = 22
 desc_size = 17
-bullet_y0 = 198
+bullet_y0 = 198 + Y_SHIFT
 bullet_step = 62
 
 bullets_svg = []
@@ -114,7 +119,8 @@ for i, (head, desc) in enumerate(bullets):
 bullets_svg = '\n'.join(bullets_svg)
 
 MARK_SIZE = 290
-MARK_X, MARK_Y = 70, 82
+MARK_SHIFT = 18  # mark+caption block needs a smaller shift than the text block (different height)
+MARK_X, MARK_Y = 70, 82 + MARK_SHIFT
 s = MARK_SIZE / 512.0
 
 
